@@ -1,25 +1,26 @@
-import logo from './logo.svg';
+
+import React from "react";
 import './App.css';
+import { Switch, Route, Redirect,withRouter} from "react-router-dom";
+import Home from "./Components/Home";
+import FloorsMenu from "./Components/Menu/FloorsMenu";
+import MallsMenu from "./Components/Menu/MallsMenu";
+import Maps from "./Components/Maps";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/home"  component={Home} />
+      <Route exact path="/malls" component={MallsMenu} />
+      <Route exact path="/malls/floors/:required_floor_mall?/:floor_statistic?" component={FloorsMenu} />
+      <Route exact path="/malls/floors/map" component={Maps} />
+      <Redirect to="/home" />
+    </Switch>
+  
   );
 }
 
-export default App;
+export default withRouter(App);
+
+
+
