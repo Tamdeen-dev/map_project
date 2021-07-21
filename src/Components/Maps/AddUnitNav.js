@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CreateUnit from "./CreateUnit";
 
 const AddUnitNav = ({
@@ -9,8 +9,11 @@ const AddUnitNav = ({
   setAction,
   point_radius,
   setRadius,
+  required_floor,
 }) => {
  
+  const [unitForm, setUnitForm] = useState(false);
+
   const draw_unit = () => {
     // function to connect all points drew
     let area_from_points = [];
@@ -50,12 +53,16 @@ const AddUnitNav = ({
   };
   return (
     <div>
+      {unitForm && (
         <CreateUnit
           newUnitElement={newUnitElement}
           setAddElement={setAddElement}
           pointsSquence={pointsSquence}
+          setUnitForm={setUnitForm}
+          required_floor={required_floor}
         />
-
+      )}
+       <div>
       <div className="bg-light-gray ba b--silver draw-nav">
         <input
           className="mr2 ml2"
@@ -82,9 +89,9 @@ const AddUnitNav = ({
         {newUnitElement.length === 1 && newUnitElement[0].coords.length > 3 && (
           <button
             className={`f6 grow button no-underline br-pill ba bw1 ph3 pv2 mb2 dib black ttc mr3 button-filter bg-white`}
-        
+            onClick={() => setUnitForm(true)}
           >
-            Create unit
+            Create Unit
           </button>
         )}
 
@@ -101,6 +108,7 @@ const AddUnitNav = ({
           type="text"
           className="form-control"
         />
+      </div>
       </div>
     </div>
   );

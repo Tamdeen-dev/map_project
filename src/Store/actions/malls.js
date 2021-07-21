@@ -1,6 +1,7 @@
 import {FETCH_STATUS,FETCH_MALLS,FETCH_FLOORS,FETCH_UNITS} from "./types";
+import {UnitsValidator,} from "./validators";
 import { instance } from "./instance";
-import { handleError } from "./errors";
+import { handleError, resetErrors } from "./errors";
 
 export const fetchStatus = () => async (dispatch) => {
   try {
@@ -50,3 +51,40 @@ export const fetchUnits = () => async (dispatch) => {
   };
 };
 
+export const uploadUnit = (
+  inputData,
+  setUnitName,
+  setUnitType,
+  setUnitsize,
+  setUnitshape,
+  setUnitTrackable,
+  setUnitClassification,
+  setAddElement,
+  setLoading,
+  setMessageOpen,
+ 
+) => async (dispatch) => {
+  try {
+    await UnitsValidator(inputData);
+    await setLoading(true);
+
+    await instance.post((`malls/create-units/`), inputData);
+
+
+    dispatch(resetErrors());
+
+    setUnitName("");
+    setUnitType("");
+    setUnitsize("");
+    setUnitshape("");
+    setUnitTrackable("Yes");
+    setUnitClassification("");
+    setAddElement([]);
+    setLoading(false);
+    setMessageOpen(true);
+  } 
+  catch (error) {
+    setLoading(false);
+    dispatch(handleError(error));
+  }
+};

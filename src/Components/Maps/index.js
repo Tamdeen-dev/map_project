@@ -10,10 +10,12 @@ import AddUnitNav from "./AddUnitNav";
 export const Maps = ({units_data,status_data,required_floor_map,required_floor}) => {
   
   const [hoveredArea, setArea] = useState(null);
+  const [open_unit_details, setOpenUnitDetails] = useState(false);
   const [set_action, setAction] = useState(false);
   const [newUnitElement, setAddElement] = useState([]);
   const [pointsSquence, setPoints] = useState(""); 
   const [point_radius, setRadius] = useState(20);
+
 
   const units_floor = units_data.filter((unit) => (unit.floor===required_floor))
 
@@ -67,13 +69,11 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
           unit_status: unit.status,
           unit_client: unit.client,
           unit_company:unit.company,
-          key:{index}
         }
       })
     }
   return (
     <MapStyles>
-
       <ActionNav setAction={setAction}/>
 
       {set_action && (
@@ -85,6 +85,7 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
               setAction={setAction}
               point_radius={point_radius}
               setRadius={setRadius}
+              required_floor ={required_floor}
             />
           )}
 
@@ -94,7 +95,9 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
           width={1000}
           map={{
             name: "my-map",
-            areas: [...get_list_of_zones(),
+            areas: [
+              ...newUnitElement,
+              ...get_list_of_zones(),
                    ],
             }}
           onImageClick={(evt) => onimgClick(evt)}

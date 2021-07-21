@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const MapStyles = styled.div`
   .map {
-    z-index: -1;
     position: absolute;
+    z-index: -1;
   }
 
   .unit-description {
@@ -14,7 +14,7 @@ const MapStyles = styled.div`
     border-radius: 5px;
     transform: translate3d(-50% -50%, 0);
     pointer-events: none;
-    z-index: 1000;
+    z-index:  1000;
   }
 
   .button-filter {

@@ -12,7 +12,7 @@ function App() {
     <Switch>
       <Route exact path="/home"  component={Home} />
       <Route exact path="/malls" component={MallsMenu} />
-      <Route exact path="/malls/floors/:required_floor_mall?/:floor_statistic?" component={FloorsMenu} />
+      <Route exact path="/malls/floors/" component={FloorsMenu} />
       <Route exact path="/malls/floors/map" component={Maps} />
       <Redirect to="/home" />
     </Switch>

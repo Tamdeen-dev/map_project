@@ -12,7 +12,8 @@ const MallsMenuItem = ({required_mall_id,required_mall_name,mall_statistic,floor
 
 
     
-    if (activecomponent==="floor") return(<div> <FloorsMenu required_floor_mall ={required_mall_id}
+    if (activecomponent==="floor") return(<div> 
+        <FloorsMenu required_floor_mall ={required_mall_id}
                                                             floor_statistic={floors_statistic}
                                                 /> 
                                                 </div>)
