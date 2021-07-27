@@ -1,32 +1,45 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 import ImageMapper from "react-image-mapper";
 import HoveredArea from "./HoveredArea"
-import MapStyles from "./MapStyles";
+import {fetchCoding,} from "../../Store/actions";
 import ActionNav from "./ActionNav";
 import AddUnitNav from "./AddUnitNav";
+import MapStyles from "./MapStyles"
+import { InnerPageContainer, PageContainer } from "../PageContainer";
 
 
-export const Maps = ({units_data,status_data,required_floor_map,required_floor}) => {
+
+
+export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
+
+  const {required_floor,} = useParams();
   
   const [hoveredArea, setArea] = useState(null);
-  const [open_unit_details, setOpenUnitDetails] = useState(false);
-  const [set_action, setAction] = useState(false);
-  const [newUnitElement, setAddElement] = useState([]);
+  const [open_unit_details, setOpenUnitDetails] = useState(false); // variable used to control zone detail when it is clicked
+  const [set_action, setAction] = useState(false); // if user click 'add unit' 
+  const [newUnitElement, setAddElement] = useState([]); // variable used to fill in the points sequence
   const [pointsSquence, setPoints] = useState(""); 
-  const [point_radius, setRadius] = useState(20);
+  const [point_radius, setRadius] = useState(3);
+   
+  
+  const required_floor_map = floors_data.find((floor) => floor.id=== Number(required_floor)).floor_image;
+  const units_floor = units_data.filter((unit) => (unit.floor===Number(required_floor)));
 
-
-  const units_floor = units_data.filter((unit) => (unit.floor===required_floor))
 
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
+   
+  useEffect(() => {
+    fetchCoding();
+  }, [fetchCoding],);
 
   useEffect(() => {
     // rerender page when adding zone coords points
     forceUpdate();
-  }, [newUnitElement],);
+  }, [newUnitElement],[units_data]);
 
-  
   const enterArea = (area) => {
     setArea(area);
   };
@@ -53,7 +66,7 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
    }
   };
 
-  const get_list_of_zones = () => {
+  const get_list_of_units= () => {
     // a function will return all zones recored in databse
     return units_floor.map((unit,index) => {
         return {
@@ -73,6 +86,8 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
       })
     }
   return (
+    <PageContainer>
+      <InnerPageContainer>
     <MapStyles>
       <ActionNav setAction={setAction}/>
 
@@ -85,10 +100,10 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
               setAction={setAction}
               point_radius={point_radius}
               setRadius={setRadius}
-              required_floor ={required_floor}
+              required_floor = {Number(required_floor)}
             />
           )}
-
+      
       <div className={`map ${set_action && "crosshair"}`}>
         <ImageMapper 
           src={required_floor_map}
@@ -97,26 +112,29 @@ export const Maps = ({units_data,status_data,required_floor_map,required_floor})
             name: "my-map",
             areas: [
               ...newUnitElement,
-              ...get_list_of_zones(),
+              ...get_list_of_units(),
                    ],
             }}
           onImageClick={(evt) => onimgClick(evt)}
           onMouseEnter={(area) => enterArea(area)}
           onMouseLeave={() => leaveArea()}
         />
-        {hoveredArea && (<HoveredArea
-                                   hoveredArea={hoveredArea}
-                                   getTipPosition={getTipPosition}
-                         />)
-        }
+        {hoveredArea && (<HoveredArea hoveredArea={hoveredArea}
+                                      getTipPosition={getTipPosition}
+                         /> )}
       </div>
     </MapStyles>
-  )
-}
+    </InnerPageContainer>
+    </PageContainer>
+  );
+};
 
 const mapStateToProps = ({malls}) => ({
   status_data:malls.status_details,
+  floors_data:malls.floors_details,
   units_data:malls.units_details,
 });
 
-export default connect(mapStateToProps)(Maps);
+const mapDispatchToProps = {fetchCoding,};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Maps);

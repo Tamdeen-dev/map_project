@@ -12,6 +12,8 @@ const CreateUnit = ({
   required_floor,
   setUnitForm,
   errors,
+  coding_data,
+  
   
 }) => {
   const [unit_name, setUnitName] = useState("");
@@ -23,36 +25,46 @@ const CreateUnit = ({
   const [loading, setLoading] = useState(false);
   const [openMessage, setMessageOpen] = useState(false);
 
-  const handleUnitUplode = async () => {
-    let coords_string = await "";
+  if (coding_data.length === 0)
+  return <Loading message={"Loading ...."} />;  
 
+  const type_lookup = coding_data.filter((item) => (item.code_header==="Unit Types"));
+  const yesno_lookup = [{display:"Yes", value:true}, {display:"No" ,value:false}];
+  const shape_lookup = coding_data.filter((item) => (item.code_header==="Unit Shapes"));
+  const Classification_lookup = coding_data.filter((item) => (item.code_header==="Unit Classifications"));
+
+
+  const handleUnitUplode = async () => {
+
+    let coords_string = await "";
     await newUnitElement[0].coords.forEach((point) => {
       coords_string += `${point}, `;
     });
 
     await uploadUnit(
       {
+        floor:required_floor,
         unit_name,
-        unit_type,
         unit_size,
-        unit_shape,
-        trackable,
-        unit_classification,
         x_coord: 0,
         y_coord: 0,
         radius: 0,
         coords: coords_string.slice(0, -2),
-        required_floor,
+        unit_shape,
+        unit_type,
+        trackable,
+        unit_classification,
       },
-      setLoading,
       setUnitName,
       setUnitType,
       setUnitSize,
       setUnitShape,
       setUnitTrackable,
       setUnitClassification,
+      setLoading,
       setMessageOpen,
       setAddElement,
+
     );
   };
   return (
@@ -67,60 +79,72 @@ const CreateUnit = ({
       )}
       <div className="row mt2">
         <div className="col-3 mt1 ml4 title">
-          Unit Name <div className="fr">:</div>
+          Name <div className="fr">:</div>
         </div>
         <div className="col-8">
           <input
             value={unit_name}
             type="text"
-            className={`form-control ${errors.unit_name && "border border-danger"}`}
+            className="form-control "
             onChange={(event) => setUnitName(event.target.value)}
           />
-          {/* show error message if name is blank when user clicks on 'Upload button' */}
-          {errors.name && <small className="error_text">{errors.unit_name}</small>}
         </div>
       </div>
       
       <div className="row">
         <div className="col-3 mt3 ml4 title">
-          Unit Type <div className="fr">:</div>
+          Type <div className="fr">:</div>
         </div>
         <div className="col-8">
           <select
             className={`form-control w-100 f2 mt3 ba b--black-20 bg-white title ${
               errors.unit_type && "border border-danger"
             }`}
-            value={unit_type || ""}
+            value={unit_type || 0}
             name="unit_type"
             onChange={(event) => setUnitType(event.target.value)}
           >
-            <option value={""}>-- select --</option>
-            {["lease", "special"].map((type, index) => (
-              <option value={type} key={index}>
-                {type}
+            <option value={0}>-- select --</option>
+            {type_lookup.map((item) => (
+              <option key={item.id} value={item.id} >
+                {item.code_l_name}
               </option>
             ))}
           </select>
-          <div>
-            {errors.unit_type && (
-              <small className="error_text">{errors.unit_type}</small>
-            )}
-          </div>
         </div>
       </div>
 
-
       <div className="row">
         <div className="col-3 mt1 ml4 title">
-          Unit Size <div className="fr">:</div>
+          Size <div className="fr">:</div>
         </div>
         <div className="col-8">
           <input
             value={unit_size}
             type="number"
-            className={`form-control ${errors.unit_size && "border border-danger"}`}
+            className="form-control"
             onChange={(event) => setUnitSize(event.target.value)}
           />
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-3 mt3 ml4 title">
+          Shape <div className="fr">:</div>
+        </div>
+        <div className="col-8">
+          <select
+            value={unit_shape || 0}
+            name="unit_shape"
+            onChange={(event) => setUnitShape(event.target.value)}
+          >
+            <option value={0}>-- select --</option>
+            {shape_lookup.map((item) => (
+              <option key={item.id} value={item.id} >
+                {item.code_l_name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -133,65 +157,50 @@ const CreateUnit = ({
             disabled={true}
             value={pointsSquence}
             type="text"
-            className={`form-control ${
-              errors.coords && "border border-danger"
-            }`}
           />
-          {errors.coords && (
-            <small className="error_text">{errors.coords}</small>
-          )}
         </div>
       </div>
 
-     
-      
       <div className="row">
         <div className="col-3 mt3 ml4 title">
          Trackable <div className="fr">:</div>
         </div>
         <div className="col-8">
           <select
-            className={`form-control w-100 f2 mt3 ba b--black-20 bg-white title`}
-            value={trackable || ""}
+            className="form-control w-100 f2 mt3 ba b--black-20 bg-white title"
+            value={trackable || true}
             name="trackable"
             onChange={(event) => setUnitTrackable(event.target.value)}
           >
-            <option value={""}>-- select --</option>
-            {["Yes", "No"].map((type, index) => (
-              <option value={type} key={index}>
-                {type}
+            {yesno_lookup.map((item, index) => (
+              <option value={item.value} key={index}>
+                {item.display}
               </option>
             ))}
           </select>
-          
         </div>
       </div>
    
       <div className="row">
         <div className="col-3 mt3 ml4 title">
-        Unit Classification <div className="fr">:</div>
+          Dedicated to <div className="fr">:</div>
         </div>
         <div className="col-8">
           <select
-            className={`form-control w-100 f2 mt3 ba b--black-20 bg-white title`}
-            value={unit_classification || ""}
-            name="unit_classification"
+            value={unit_classification || 0}
+            name="unit_type"
             onChange={(event) => setUnitClassification(event.target.value)}
           >
-            <option value={""}>-- select --</option>
-            {["Yes", "No"].map((type, index) => (
-              <option value={type} key={index}>
-                {type}
+            <option value={0}>-- select --</option>
+            {Classification_lookup.map((item) => (
+              <option key={item.id} value={item.id} >
+                {item.code_l_name}
               </option>
             ))}
           </select>
-          <div>
-            {errors.unit_classification && (
-              <small className="error_text">{errors.unit_classification}</small>
-            )}
-          </div>
         </div>
       </div>
+
 
       <button
         className={`ml3 mt2 f6 button grow no-underline br-pill ba bw1 ph3 pv2 mb2 dib black ttc mr4 button-filter bg-white`}
@@ -202,7 +211,7 @@ const CreateUnit = ({
 
       <button
         className={`ml1 mt2 f6 button grow no-underline br-pill ba bw1 ph3 pv2 mb2 dib black ttc mr4 button-filter bg-white`}
-        onClick={() => handleUnitUplode()}
+        onClick={() =>  handleUnitUplode()}
       >
         Upload Unit
       </button>
@@ -210,7 +219,8 @@ const CreateUnit = ({
   );
 };
 
-const mapStateToProps = ({errors }) => ({
+const mapStateToProps = ({ malls, errors }) => ({
+  coding_data:malls.coding_details,
   errors,
 });
 

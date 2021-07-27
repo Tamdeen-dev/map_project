@@ -10,9 +10,10 @@ const AddUnitNav = ({
   point_radius,
   setRadius,
   required_floor,
+  
 }) => {
  
-  const [unitForm, setUnitForm] = useState(false);
+  const [unitForm, setUnitForm] = useState(false); // variable used to show Zone form input for uploading
 
   const draw_unit = () => {
     // function to connect all points drew
@@ -48,7 +49,7 @@ const AddUnitNav = ({
   };
 
   const setPointSize = (value) => {
-    if (!value || value < 1 || value > 5) setRadius(3);
+    if (!value || value < 1 || value > 20) setRadius(3);
     else setRadius(value);
   };
   return (
@@ -70,7 +71,7 @@ const AddUnitNav = ({
           name="point_radius"
           value={point_radius}
           min={1}
-          max={5}
+          max={20}
           onChange={(event) => setPointSize(event.target.value)}
         />
         <button

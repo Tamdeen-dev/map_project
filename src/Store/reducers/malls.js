@@ -1,6 +1,7 @@
-import {FETCH_STATUS,FETCH_MALLS,FETCH_FLOORS,FETCH_UNITS} from "../actions/types";
+import { FETCH_CODING,FETCH_STATUS,FETCH_MALLS,FETCH_FLOORS,FETCH_UNITS} from "../actions/types";
   
 const initialState = {
+    coding_details:[],
     status_details:[],
     malls_details:[],
     floors_details:[],
@@ -9,6 +10,12 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case FETCH_CODING:
+            return {
+                ...state,
+                coding_details: action.payload,
+            };
+
         case FETCH_STATUS:
             return {
                 ...state,
