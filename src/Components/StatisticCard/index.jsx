@@ -26,8 +26,9 @@ export const CardContainer = styled.div`
   margin-bottom: 1.3em;
 `;
 
-export const TopContainer = styled.div`
+export const TopContainer = styled.div`  
   width: 100%;
+
 `;
 
 export const ServiceThumbnail = styled.div`

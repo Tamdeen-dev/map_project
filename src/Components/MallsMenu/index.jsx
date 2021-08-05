@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { connect} from "react-redux";
 import Loading from "../Loading";
 import MallsMenuItem from "../MallsMenu/MallsMenuItem";

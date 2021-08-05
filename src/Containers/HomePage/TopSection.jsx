@@ -1,7 +1,5 @@
 import React from "react";
-import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { BrandLogo } from "../../Components/BrandLogo";
 import { Marginer } from "../../Components/Marginer";
 import { DeviceSize } from "../../Components/Responsive";
 
@@ -11,8 +9,9 @@ const TopSectionContainer = styled.div`
   width: 100%;
   height: 950px;
   background: url(${TopSectionBackgroundImg}) no-repeat;
-  background-position: 0px -150px;
+  background-position: 0px 0px;
   background-size: cover;
+  
 
   @media screen and (max-width: ${DeviceSize.mobile}px) {
     height: 700px;
@@ -74,8 +73,6 @@ const BrandText = styled.h3`
 
 export function TopSection(props) {
   const { children } = props;
-
-  const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
   return (
     <TopSectionContainer>

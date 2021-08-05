@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
 const MapStyles = styled.div`
-.map {
-  z-index: -1;
-  position: absolute;
-}
 
 .unit-description {
   position: absolute;
@@ -17,20 +13,27 @@ const MapStyles = styled.div`
   z-index: 1000;
 }
 
-.button-filter {
+
+.btn {
+  border: none;
   outline: none;
-  box-shadow: none;
-  text-decoration:none;
+  color: #0000FF;
+  padding: 6px 1em;
+  font-size: 11;
+  font-weight: 600;
+  border-radius: 3px;
+  background-color:#FFFFFF ;
+  transition: all 200ms ease-in-out;
 }
 
 .button:focus {
   outline: none;
   box-shadow: none;
+
 }
 
 .button:hover {
-  color: #006AB4;
-  border-color:#006AB4
+  background-color: #696969;
 }
 
 .draw-nav {
@@ -45,7 +48,20 @@ const MapStyles = styled.div`
 }
 
 .custom-zone-card {
-  background-color: #e1e1e5;
+  position: absolute;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
+  background: #cacad0; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    #5d5d68,
+    #cacad0
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    #5d5d68,
+    #cacad0
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */;
 }
 
 @media screen and (min-width: 0px) {

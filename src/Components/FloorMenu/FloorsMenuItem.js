@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Marginer } from "../Marginer";
 import MallsUnitStatus from "../Menu/MallsMenu/MallsUnitStatus";

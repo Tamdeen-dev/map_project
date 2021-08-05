@@ -3,14 +3,16 @@ import { connect } from "react-redux";
 import { uploadUnit } from "../../Store/actions";
 import Loading from "../Loading";
 import ShowMessage from "../ShowMessage";
+import  {FormStyles} from "../FormStyles";
+import { Marginer } from "../Marginer";
+import { PageContainer } from "../PageContainer";
 
 const CreateUnit = ({
   newUnitElement,
   setAddElement,
-  pointsSquence,
-  uploadUnit,
   required_floor,
   setUnitForm,
+  uploadUnit,
   errors,
   coding_data,
   
@@ -67,8 +69,13 @@ const CreateUnit = ({
 
     );
   };
+
   return (
-    <div className="custom-zone-card ba b--silver pa2">
+    <FormStyles>
+          <PageContainer>
+      <div className="BoxContainer" >
+      <Marginer direction="vertical" margin={30} />
+      <div className="FormContainer">
       {loading && <Loading message={"Please wait...."} />}
       {openMessage && (
         <ShowMessage
@@ -77,34 +84,32 @@ const CreateUnit = ({
           width={"w-60"}
         />
       )}
-      <div className="row mt2">
-        <div className="col-3 mt1 ml4 title">
-          Name <div className="fr">:</div>
+       <Marginer direction="vertical" margin={20} />
+       <div className="label">
+           Unit Name
         </div>
-        <div className="col-8">
+        <div className="Input">
           <input
-            value={unit_name}
-            type="text"
-            className="form-control "
-            onChange={(event) => setUnitName(event.target.value)}
+              className="form-control w-100"
+              value={unit_name}
+              type="text"
+              onChange={(event) => setUnitName(event.target.value)}
           />
-        </div>
       </div>
-      
-      <div className="row">
-        <div className="col-3 mt3 ml4 title">
-          Type <div className="fr">:</div>
-        </div>
-        <div className="col-8">
+      <Marginer direction="vertical" margin={4} />
+      <div className="label">
+           Unit Type
+      </div>
+        <div className="Input">
           <select
-            className={`form-control w-100 f2 mt3 ba b--black-20 bg-white title ${
+            className={`form-control w-75 ${
               errors.unit_type && "border border-danger"
             }`}
             value={unit_type || 0}
             name="unit_type"
             onChange={(event) => setUnitType(event.target.value)}
           >
-            <option value={0}>-- select --</option>
+            <option value={0}>-- select Unit Type --</option>
             {type_lookup.map((item) => (
               <option key={item.id} value={item.id} >
                 {item.code_l_name}
@@ -112,28 +117,27 @@ const CreateUnit = ({
             ))}
           </select>
         </div>
+        
+        <Marginer direction="vertical" margin={4} />
+      <div className="label">
+           Unit Size
       </div>
-
-      <div className="row">
-        <div className="col-3 mt1 ml4 title">
-          Size <div className="fr">:</div>
-        </div>
-        <div className="col-8">
+      <div className="Input">
           <input
+            className="form-control w-25"
             value={unit_size}
             type="number"
-            className="form-control"
             onChange={(event) => setUnitSize(event.target.value)}
           />
-        </div>
       </div>
-
-      <div className="row">
-        <div className="col-3 mt3 ml4 title">
-          Shape <div className="fr">:</div>
-        </div>
-        <div className="col-8">
+     
+      <Marginer direction="vertical" margin={4} />
+      <div className="label">
+           Unit Shape
+      </div>
+      <div className="Input">
           <select
+            className="form-control w-50"
             value={unit_shape || 0}
             name="unit_shape"
             onChange={(event) => setUnitShape(event.target.value)}
@@ -146,28 +150,14 @@ const CreateUnit = ({
             ))}
           </select>
         </div>
+    
+        <Marginer direction="vertical" margin={4} />
+      <div className="label">
+           Trackable
       </div>
-
-      <div className="row mt2">
-        <div className="col-3 mt1 ml4 title">
-          Zone Coords <div className="fr">:</div>
-        </div>
-        <div className="col-8">
-          <input
-            disabled={true}
-            value={pointsSquence}
-            type="text"
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-3 mt3 ml4 title">
-         Trackable <div className="fr">:</div>
-        </div>
-        <div className="col-8">
+      <div className="Input">
           <select
-            className="form-control w-100 f2 mt3 ba b--black-20 bg-white title"
+            className="form-control w-25"
             value={trackable || true}
             name="trackable"
             onChange={(event) => setUnitTrackable(event.target.value)}
@@ -179,16 +169,16 @@ const CreateUnit = ({
             ))}
           </select>
         </div>
+
+        <Marginer direction="vertical" margin={4} />
+      <div className="label">
+           Unit Classifications
       </div>
-   
-      <div className="row">
-        <div className="col-3 mt3 ml4 title">
-          Dedicated to <div className="fr">:</div>
-        </div>
-        <div className="col-8">
+      <div className="Input">
           <select
+             className="form-control w-50 "
             value={unit_classification || 0}
-            name="unit_type"
+            name="unit_classification"
             onChange={(event) => setUnitClassification(event.target.value)}
           >
             <option value={0}>-- select --</option>
@@ -198,24 +188,29 @@ const CreateUnit = ({
               </option>
             ))}
           </select>
-        </div>
       </div>
 
-
+      <Marginer direction="vertical" margin={30} /> 
+    <div className="BtnContainer justify-content-end">
       <button
-        className={`ml3 mt2 f6 button grow no-underline br-pill ba bw1 ph3 pv2 mb2 dib black ttc mr4 button-filter bg-white`}
+        className="SubmitButton"
         onClick={() => setUnitForm(false)}
       >
         Cancel
       </button>
 
       <button
-        className={`ml1 mt2 f6 button grow no-underline br-pill ba bw1 ph3 pv2 mb2 dib black ttc mr4 button-filter bg-white`}
-        onClick={() =>  handleUnitUplode()}
+        className="SubmitButton"
+        onClick={() => handleUnitUplode()}
       >
-        Upload Unit
+        Upload 
       </button>
     </div>
+    </div>
+     </div>
+     </PageContainer>
+    </FormStyles>
+ 
   );
 };
 

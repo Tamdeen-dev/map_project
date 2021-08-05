@@ -1,4 +1,4 @@
-import {FETCH_CODING,FETCH_STATUS,FETCH_MALLS,FETCH_FLOORS,FETCH_UNITS} from "./types";
+import {FETCH_CODING,FETCH_STATUS,FETCH_MALLS,FETCH_FLOORS,FETCH_UNITS,} from "./types";
 import {UnitsValidator,} from "./validators";
 import { instance } from "./instance";
 import { handleError, resetErrors } from "./errors";

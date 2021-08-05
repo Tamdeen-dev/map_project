@@ -2,8 +2,7 @@ import React from "react";
 
 const HoveredArea = ({ hoveredArea, getTipPosition }) => {
   return (
-    <span
-      className="unit-description"
+    <div className ='unitInBreif'
       style={{
         ...getTipPosition(hoveredArea),
       }}
@@ -17,7 +16,7 @@ const HoveredArea = ({ hoveredArea, getTipPosition }) => {
           </div>
         )}
       </div>
-    </span>
+    </div>
   );
 };
 

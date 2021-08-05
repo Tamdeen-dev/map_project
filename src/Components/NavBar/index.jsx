@@ -1,12 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
 import { BrandLogo } from "../BrandLogo";
-import { DeviceSize } from "../Responsive";
-import { Button } from "../Button";
-import { Marginer } from "../Marginer";
 import {AccessMenu} from "../AccessMenu";
+import {MapAccessMenu} from "../Maps/MapAccessMenu";
+import {UnitAccessMenu} from "../Maps/UnitAccessMenu";
+
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -20,38 +18,31 @@ const NavbarContainer = styled.div`
     useTransparent ? "transparent" : "rgba(245, 251, 253, 0.9)"};
 `;
 
-const AccessibilityContainer = styled.div`
-height: 100%;
-display: flex;
-align-items: center;
-`;
-
-const AnchorLink = styled(Link)`
-font-size: 12px;
-color: #000000;
-cursor: pointer;
-text-decoration: none;
-outline: none;
-transition: all 200ms ease-in-out;
-
-&:hover {
-  filter: contrast(0.6);
-}
-`;
-
-const Seperator = styled.div`
-min-height: 35%;
-width: 1px;
-background-color: #fff;
-`;
 
 export function NavBar(props) {
-  const { useTransparent,action} = props;
-  
+  const { useTransparent,
+          action, 
+          newUnitElement,
+          setAddElement,
+          setPoints,
+          setAction,
+          point_radius,
+          setRadius,
+          setUnitForm} = props;
+
   return (
     <NavbarContainer useTransparent={useTransparent}>
       <BrandLogo/>
-      {(action==="login") && (<AccessMenu />)}  
+      {(action==="login") && (<AccessMenu />)}
+      {(action==="map") && (<MapAccessMenu setAction={setAction}/>)} 
+      {(action==="unit") && (<UnitAccessMenu newUnitElement={newUnitElement}
+                                             setAddElement={setAddElement}
+                                             setPoints={setPoints}
+                                             setAction={setAction}
+                                             point_radius={point_radius}
+                                             setRadius={setRadius}
+                                             setUnitForm={setUnitForm}
+                                             />)} 
     </NavbarContainer>
   );
 }

@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import ImageMapper from "react-image-mapper";
 import HoveredArea from "./HoveredArea"
 import {fetchCoding,} from "../../Store/actions";
-import ActionNav from "./ActionNav";
-import AddUnitNav from "./AddUnitNav";
-import MapStyles from "./MapStyles"
 import { InnerPageContainer, PageContainer } from "../PageContainer";
-
-
+import { NavBar } from "../NavBar";
+import { ServicesContainer } from "../StatisticCard";
+import { Marginer } from "../Marginer";
+import  Mapstyles from "./MapStyles/"
+import CreateUnit from "./CreateUnit";
 
 
 export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
@@ -17,15 +17,14 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
   const {required_floor,} = useParams();
   
   const [hoveredArea, setArea] = useState(null);
-  const [open_unit_details, setOpenUnitDetails] = useState(false); // variable used to control zone detail when it is clicked
-  const [set_action, setAction] = useState(false); // if user click 'add unit' 
+   const [set_action, setAction] = useState(false); // if user click 'add unit' 
   const [newUnitElement, setAddElement] = useState([]); // variable used to fill in the points sequence
   const [pointsSquence, setPoints] = useState(""); 
   const [point_radius, setRadius] = useState(3);
-   
+  const [unitForm, setUnitForm] = useState(false);
   
-  const required_floor_map = floors_data.find((floor) => floor.id=== Number(required_floor)).floor_image;
-  const units_floor = units_data.filter((unit) => (unit.floor===Number(required_floor)));
+  const [required_floor_map,] =useState(floors_data.find((floor) => floor.id=== Number(required_floor)).floor_image);
+  const [units_floor,] = useState(units_data.filter((unit) => (unit.floor===Number(required_floor))));
 
 
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -36,9 +35,8 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
   }, [fetchCoding],);
 
   useEffect(() => {
-    // rerender page when adding zone coords points
     forceUpdate();
-  }, [newUnitElement],[units_data]);
+  }, [newUnitElement],[units_data],);
 
   const enterArea = (area) => {
     setArea(area);
@@ -66,9 +64,7 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
    }
   };
 
-  const get_list_of_units= () => {
-    // a function will return all zones recored in databse
-    return units_floor.map((unit,index) => {
+  const get_list_of_units= () => {return units_floor.map((unit,index) => {
         return {
           name: unit.unit_name,
           shape: unit.shape,
@@ -85,26 +81,39 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
         }
       })
     }
-  return (
-    <PageContainer>
-      <InnerPageContainer>
-    <MapStyles>
-      <ActionNav setAction={setAction}/>
+   
+    const access_menu = (unit_action)=>{return ((unit_action)? "unit":"map")}
 
-      {set_action && (
-            <AddUnitNav
-              newUnitElement={newUnitElement}
-              setAddElement={setAddElement}
-              pointsSquence={pointsSquence}
-              setPoints={setPoints}
-              setAction={setAction}
-              point_radius={point_radius}
-              setRadius={setRadius}
-              required_floor = {Number(required_floor)}
+    return (
+      <PageContainer>
+        <InnerPageContainer>
+        <NavBar 
+          useTransparent
+          action= {access_menu(set_action)} 
+          newUnitElement={newUnitElement}
+          setAddElement={setAddElement}
+          pointsSquence={pointsSquence}
+          setPoints={setPoints}
+          setAction={setAction}
+          point_radius={point_radius}
+          setRadius={setRadius}
+          setUnitForm={setUnitForm}
+          unitForm={unitForm}
+          required_floor = {Number(required_floor)}
             />
-          )}
-      
-      <div className={`map ${set_action && "crosshair"}`}>
+      <Marginer direction="vertical" margin={5} />
+      <ServicesContainer>
+      {unitForm && (
+      <CreateUnit
+        newUnitElement={newUnitElement}
+        setAddElement={setAddElement}
+        pointsSquence={pointsSquence}
+        required_floor={Number(required_floor)}
+        setUnitForm={setUnitForm}
+      />
+    )}
+    <Mapstyles>
+    <div className={`map ${set_action && "crosshair"}`}>
         <ImageMapper 
           src={required_floor_map}
           width={1000}
@@ -122,8 +131,10 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
         {hoveredArea && (<HoveredArea hoveredArea={hoveredArea}
                                       getTipPosition={getTipPosition}
                          /> )}
-      </div>
-    </MapStyles>
+       
+    </div>
+      </Mapstyles>
+      </ServicesContainer>
     </InnerPageContainer>
     </PageContainer>
   );

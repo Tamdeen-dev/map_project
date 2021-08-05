@@ -1,7 +1,7 @@
 
 import React from "react";
 import './App.css';
-import { Switch, Route, Redirect,withRouter} from "react-router-dom";
+import { Switch, Route,withRouter} from "react-router-dom";
 import HomePage from "./Containers/HomePage";
 import FloorsMenu from "./Components/FloorMenu";
 import Malls from "./Containers/Malls"

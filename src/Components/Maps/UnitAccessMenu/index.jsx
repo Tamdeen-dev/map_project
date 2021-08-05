@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import CreateUnit from "./CreateUnit";
 import styled from "styled-components"
 
 const BtnNavBar = styled.button`
@@ -22,27 +20,23 @@ const BtnNavBar = styled.button`
 }
 `;
 
-
 const AccessibilityContainer = styled.div`
 height: 100%;
 display: flex;
 align-items: center;
 `;
 
-const AddUnitNav = ({
+export const UnitAccessMenu = ({
   newUnitElement,
   setAddElement,
-  pointsSquence,
   setPoints,
   setAction,
   point_radius,
   setRadius,
-  required_floor,
+  setUnitForm,                           
   
 }) => {
  
-  const [unitForm, setUnitForm] = useState(false); // variable used to show Zone form input for uploading
-
   const draw_unit = () => {
     // function to connect all points drew
     let area_from_points = [];
@@ -74,28 +68,27 @@ const AddUnitNav = ({
     setAddElement([]);
     setPoints("");
     setAction(false);
+    setUnitForm(false);
+
   };
+
+  const openCreateUnitForm = () => {
+    // reset the zone coords points
+    setUnitForm(true);
+  };
+
 
   const setPointSize = (value) => {
     if (!value || value < 1 || value > 20) setRadius(3);
     else setRadius(value);
   };
   return (
-    <AccessibilityContainer>
-    <BtnNavBar>
-      {unitForm && (
-        <CreateUnit
-          newUnitElement={newUnitElement}
-          setAddElement={setAddElement}
-          pointsSquence={pointsSquence}
-          setUnitForm={setUnitForm}
-          required_floor={required_floor}
-        />
-      )}
+      <AccessibilityContainer>
+      <BtnNavBar>
           <button className="btn" onClick={() => draw_unit()}> Draw Area </button>
           <button className="btn" onClick={() => clear()} > Clear Points </button>
           {newUnitElement.length === 1 && newUnitElement[0].coords.length > 3 && (
-            <button className="btn" onClick={() => setUnitForm(true)}> Create Unit </button>
+            <button className="btn" onClick={() => openCreateUnitForm()}> Create Unit </button>
           )}
           <button className="btn" onClick={() => closeNav()}>Cancel</button>
           
@@ -114,10 +107,10 @@ const AddUnitNav = ({
             max={20}
             onChange={(event) => setPointSize(event.target.value)}
           />
-
          </BtnNavBar>
          </AccessibilityContainer>
+        
   );
 };
 
-export default AddUnitNav;
+export default UnitAccessMenu;

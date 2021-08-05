@@ -8,7 +8,7 @@ const PageWrapper = styled.div`
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
 `;
 
 export function PageContainer(props) {
@@ -24,5 +24,5 @@ export const InnerPageContainer = styled.div`
   //padding: 1em;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;  
 `;

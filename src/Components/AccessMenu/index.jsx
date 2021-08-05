@@ -24,19 +24,11 @@ transition: all 200ms ease-in-out;
 }
 `;
 
-const Seperator = styled.div`
-min-height: 35%;
-width: 1px;
-background-color: #fff;
-`;
-
-export function AccessMenu(props) {
-  const { useTransparent,action} = props;
-  
-  return (
+export function AccessMenu() {
+    return (
         <AccessibilityContainer>
           <Link to="/malls">
-            <Button size={11}>Signup</Button>
+            <Button size={11} color={"#0000FF"} bcolor={"rgba(245, 251, 253, 0.85)"}>Signup</Button>
           </Link>
           <Marginer direction="horizontal" margin={8} />
           <AnchorLink to="/customer/access/signin">Login</AnchorLink>
