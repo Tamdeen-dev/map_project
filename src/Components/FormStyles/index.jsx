@@ -2,20 +2,20 @@ import styled from "styled-components";
 
 export const FormStyles = styled.div`
 .BoxContainer{
-  position: absolute;
-  z-index: 3;
   width: 100%;
-  max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : "auto")};
-  height:100vh
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px
+  position: absolute;
+  z-index: 2;
+  top: 0px
+  left: 0;
+  width:100%
 }
 
 .FormContainer {
+  z-index: 3;
   position: absolute;
-  width: 25%;
+  margin-top: 10%;
+  width: 30%;
+  left:25%;
   display: flex;
   flex-direction: column;
   box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
@@ -29,6 +29,22 @@ export const FormStyles = styled.div`
     #cacad0
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+}
+
+@media screen and (max-width: 976px) {
+  .FormContainer{
+    width: 100%;
+    left:2%
+    top:10%
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .FormContainer{
+    width: 100%;
+    left:2%
+    top:10%
+  }
 }
 
 .MutedLink{
@@ -81,10 +97,8 @@ export const FormStyles = styled.div`
 
 
 .BtnContainer{
-  position:absolute;
   width :100%;
   display: flex;
-  align-items: center;
   bottom: 3%; 
   right: 10px; 
 }
@@ -98,7 +112,6 @@ export const FormStyles = styled.div`
   border-radius: 3px;
   cursor: pointer;
   transition: all, 240ms ease-in-out;
-  
   background: #cacad0; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -120,4 +133,5 @@ export const FormStyles = styled.div`
     filter: brightness(1.03);
   }
 }
-`;
+ 
+  `;

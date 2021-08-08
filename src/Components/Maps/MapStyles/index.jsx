@@ -1,14 +1,26 @@
 import styled from "styled-components";
 
 export const MapStyles = styled.div`
+
 .map{
     z-index: 1;
-    position: absolute;
-    max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : "auto")};
-    width: 100%; 
-    cursor: ${({mode}) => (mode ? "crosshair" : "default")}; 
-
+    position: relative;
 }
+
+@media screen and (max-width: 976px) {
+    .map{
+      position: absolute;
+      left:0;
+    }
+}
+
+@media screen and (max-width: 992px) {
+        .map{
+          position: absolute;
+          left:0;
+    }
+}
+
 .unitInBreif{
     position: absolute;
     color: #fff;
@@ -19,6 +31,10 @@ export const MapStyles = styled.div`
     pointer-events: none;
     z-index: 10;
 }
+
+.crosshair {
+    cursor: crosshair;
+  }
     `;
 
 export default MapStyles

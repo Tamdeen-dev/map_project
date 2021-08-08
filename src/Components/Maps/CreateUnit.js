@@ -5,7 +5,6 @@ import Loading from "../Loading";
 import ShowMessage from "../ShowMessage";
 import  {FormStyles} from "../FormStyles";
 import { Marginer } from "../Marginer";
-import { PageContainer } from "../PageContainer";
 
 const CreateUnit = ({
   newUnitElement,
@@ -15,8 +14,7 @@ const CreateUnit = ({
   uploadUnit,
   errors,
   coding_data,
-  
-  
+  setDraw,
 }) => {
   const [unit_name, setUnitName] = useState("");
   const [unit_type, setUnitType] = useState("");
@@ -34,6 +32,11 @@ const CreateUnit = ({
   const yesno_lookup = [{display:"Yes", value:true}, {display:"No" ,value:false}];
   const shape_lookup = coding_data.filter((item) => (item.code_header==="Unit Shapes"));
   const Classification_lookup = coding_data.filter((item) => (item.code_header==="Unit Classifications"));
+
+
+  const cancelUnitForm = () => {
+    setUnitForm(false)
+  };
 
 
   const handleUnitUplode = async () => {
@@ -71,18 +74,19 @@ const CreateUnit = ({
   };
 
   return (
+    
     <FormStyles>
-          <PageContainer>
-      <div className="BoxContainer" >
-      <Marginer direction="vertical" margin={30} />
       <div className="FormContainer">
       {loading && <Loading message={"Please wait...."} />}
       {openMessage && (
+        <>
         <ShowMessage
           setMessageOpen={setUnitForm}
           message={"Unit uploaded successfully"}
-          width={"w-60"}
+          width={"w-25"}
         />
+         {setDraw(false)}
+        </>
       )}
        <Marginer direction="vertical" margin={20} />
        <div className="label">
@@ -194,21 +198,19 @@ const CreateUnit = ({
     <div className="BtnContainer justify-content-end">
       <button
         className="SubmitButton"
-        onClick={() => setUnitForm(false)}
+        onClick={() =>  !openMessage && cancelUnitForm()}
       >
         Cancel
       </button>
 
       <button
         className="SubmitButton"
-        onClick={() => handleUnitUplode()}
+        onClick={() =>  !openMessage && handleUnitUplode()}
       >
         Upload 
       </button>
     </div>
     </div>
-     </div>
-     </PageContainer>
     </FormStyles>
  
   );

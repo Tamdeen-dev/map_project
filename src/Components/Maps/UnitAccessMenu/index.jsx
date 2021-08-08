@@ -33,13 +33,17 @@ export const UnitAccessMenu = ({
   setAction,
   point_radius,
   setRadius,
-  setUnitForm,                           
+  unitForm,
+  setUnitForm, 
+  set_draw,
+  setDraw                          
   
 }) => {
  
   const draw_unit = () => {
     // function to connect all points drew
     let area_from_points = [];
+    if (newUnitElement.length >2) {
     newUnitElement.forEach((point) => {
       area_from_points.push(point.coords[0], point.coords[1]);
     });
@@ -55,12 +59,15 @@ export const UnitAccessMenu = ({
           coords: area_from_points,
         },
       ]);
+      setDraw(true)
+    }
   };
 
   const clear = () => {
     // reset the zone coords points
     setAddElement([]);
     setPoints("");
+    setDraw(false)
   };
 
   const closeNav = () => {
@@ -69,6 +76,7 @@ export const UnitAccessMenu = ({
     setPoints("");
     setAction(false);
     setUnitForm(false);
+    setDraw(false)
 
   };
 
@@ -85,12 +93,12 @@ export const UnitAccessMenu = ({
   return (
       <AccessibilityContainer>
       <BtnNavBar>
-          <button className="btn" onClick={() => draw_unit()}> Draw Area </button>
-          <button className="btn" onClick={() => clear()} > Clear Points </button>
+          {!set_draw && (<button className="btn" onClick={() => draw_unit()}> Draw Area </button>)}
+          <button className="btn" onClick={() => !unitForm &&  clear()} > Clear Points </button>
           {newUnitElement.length === 1 && newUnitElement[0].coords.length > 3 && (
-            <button className="btn" onClick={() => openCreateUnitForm()}> Create Unit </button>
+            <button className="btn" onClick={() => !unitForm && openCreateUnitForm()}> Create Unit </button>
           )}
-          <button className="btn" onClick={() => closeNav()}>Cancel</button>
+          <button className="btn" onClick={() => !unitForm && closeNav()}>Cancel</button>
           
           
           <input style={{ border:"none", 

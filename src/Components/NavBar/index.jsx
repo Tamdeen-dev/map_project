@@ -13,7 +13,6 @@ const NavbarContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5em;
-
   background-color: ${({ useTransparent }) =>
     useTransparent ? "transparent" : "rgba(245, 251, 253, 0.9)"};
 `;
@@ -28,7 +27,10 @@ export function NavBar(props) {
           setAction,
           point_radius,
           setRadius,
-          setUnitForm} = props;
+          unitForm,
+          setUnitForm,
+          set_draw,
+          setDraw} = props;
 
   return (
     <NavbarContainer useTransparent={useTransparent}>
@@ -41,7 +43,10 @@ export function NavBar(props) {
                                              setAction={setAction}
                                              point_radius={point_radius}
                                              setRadius={setRadius}
+                                             unitForm={unitForm}
                                              setUnitForm={setUnitForm}
+                                             set_draw={set_draw}
+                                             setDraw={setDraw}
                                              />)} 
     </NavbarContainer>
   );
