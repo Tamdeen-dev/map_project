@@ -8,7 +8,7 @@ import { Marginer } from "../Marginer";
 import {ServicesContainer,ServicesWrapper} from "../StatisticCard"
 
 
-const FloorsMenu = ({status_data,floors_data,units_data,})=> {  
+const FloorsMenu = ({status_data,floors_data,units_data,selectedMall,})=> {  
     const {required_floor_mall,} = useParams();
 
     let floor_statistic_data=[];
@@ -29,7 +29,7 @@ const FloorsMenu = ({status_data,floors_data,units_data,})=> {
                                     });
         });
       });
-    
+      
     return( 
     <PageContainer>
       <NavBar useTransparent  action="floor"/>
@@ -57,4 +57,5 @@ const mapStateToProps = ({malls}) => ({
   units_data:malls.units_details,
 });
 
-export default connect(mapStateToProps)(FloorsMenu);
+
+export default connect(mapStateToProps,)(FloorsMenu);

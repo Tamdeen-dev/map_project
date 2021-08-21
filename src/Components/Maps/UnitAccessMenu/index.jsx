@@ -36,8 +36,7 @@ export const UnitAccessMenu = ({
   unitForm,
   setUnitForm, 
   set_draw,
-  setDraw                          
-  
+  setDraw,                         
 }) => {
  
   const draw_unit = () => {

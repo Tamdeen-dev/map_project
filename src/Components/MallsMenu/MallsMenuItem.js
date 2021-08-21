@@ -1,22 +1,28 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import {selectedMall} from "../../Store/actions";
 import { Marginer } from "../Marginer";
 import TopSectionBackgroundImg from "../../Images/TmdLogo.png"
 import MallsUnitStatus from "../Menu/MallsMenu/MallsUnitStatus"
 import {CardContainer,TopContainer,ServiceThumbnail,ContentContainer,Title,SpecialistName} from "../StatisticCard"
 
 
-const MallsMenuItem = ({required_mall_id,required_mall_name,mall_statistic,})=> {                                              
+const MallsMenuItem = ({selectedMall,malls_data,required_mall_id,required_mall_name,mall_statistic,})=> {       
+  
+  const storeMallData = () => {
+    selectedMall(malls_data.filter((mall) => mall.id===required_mall_id))
+  };
 
   return( 
     <CardContainer>
-      <Link to={`/floors/${required_mall_id}`}>
         <TopContainer>
             <ServiceThumbnail>
-                <img src={TopSectionBackgroundImg} alt={required_mall_name} />
+            <Link to={`/floors/${required_mall_id}`}>
+                <img src={TopSectionBackgroundImg} alt={required_mall_name} onClick={() => storeMallData()} />
+            </Link>
             </ServiceThumbnail>
         </TopContainer>
-       </Link>
          <ContentContainer>
          <Title>{required_mall_name}</Title>
          <Marginer direction="vertical" margin={12} />
@@ -35,4 +41,10 @@ const MallsMenuItem = ({required_mall_id,required_mall_name,mall_statistic,})=> 
     ); 
 }
 
-export default MallsMenuItem;
+const mapStateToProps = ({malls}) => ({
+  malls_data:malls.malls_details,
+});
+
+const mapDispatchToProps = {selectedMall};
+
+export default connect(mapStateToProps,mapDispatchToProps) (MallsMenuItem);

@@ -21,6 +21,13 @@ export const MapStyles = styled.div`
     }
 }
 
+@media screen and (max-width: 768px) {
+  .map{
+    position: absolute;
+    left:0;
+  }
+}
+
 .unitInBreif{
     position: absolute;
     color: #fff;

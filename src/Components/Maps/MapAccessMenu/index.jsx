@@ -17,10 +17,10 @@ background-color: #C1C1C1;
 `;
 
 export function MapAccessMenu(props) {
-  const {setAction,} = props;
+  const {setAction,unitDetaiStatus} = props;
   
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
-  const clickBtn =()=>{setAction(true)};
+  const clickBtn =()=>{ (!unitDetaiStatus) && setAction(true)};
                
   return (
     <>

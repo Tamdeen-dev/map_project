@@ -1,8 +1,31 @@
-import {FETCH_CODING,FETCH_STATUS,FETCH_MALLS,FETCH_FLOORS,FETCH_UNITS,} from "./types";
-import {UnitsValidator,} from "./validators";
+import {SELECTED_MALL,
+        SELECTED_FLOOR,
+        FETCH_CODING,
+        FETCH_STATUS,
+        FETCH_MALLS,
+        FETCH_FLOORS,
+        FETCH_UNITS,
+        RETRIEVE_CONTRACT,
+        FETCH_DECISION_HISTORY,
+        FETCH_DECISION_TYPES,} from "./types";
+import {UnitsValidator,decisionValidator} from "./validators";
 import { instance } from "./instance";
 import { handleError, resetErrors } from "./errors";
 
+
+export const selectedMall = (mall) =>  async (dispatch) =>{
+  dispatch({
+    type: SELECTED_MALL,
+    payload: mall,
+  });
+};
+
+export const selectedFloor = (floor) =>  async (dispatch) =>{
+  dispatch({
+    type: SELECTED_FLOOR,
+    payload: floor,
+  });
+};
 
 export const fetchCoding = () => async (dispatch) => {
   try {
@@ -64,6 +87,19 @@ export const fetchUnits = () => async (dispatch) => {
   };
 };
 
+export const retrieveContract = (contractID) => async (dispatch) => {
+  try {
+    const res = await instance.get(`/malls/retrieve-contract/${contractID}`);
+    dispatch({
+      type: RETRIEVE_CONTRACT,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch(handleError(error));
+  };
+};
+
+
 export const uploadUnit = (
   inputData,
   setUnitName,
@@ -97,6 +133,66 @@ export const uploadUnit = (
     setMessageOpen(true);
   } 
   catch (error) {
+    setLoading(false);
+    dispatch(handleError(error));
+  }
+};
+
+
+export const fetchDecisionHistory = (contractID) => async (dispatch) => {
+  try {
+    const res = await instance.get(`malls/fetch-decision/${contractID}`);
+    dispatch({
+      type: FETCH_DECISION_HISTORY,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch(handleError(error));
+  }
+};
+
+
+export const fetchDecisionTypes = () => async (dispatch) => {
+  try {
+    const res = await instance.get(`malls/fetch-decision-types/`);
+    dispatch({
+      type: FETCH_DECISION_TYPES,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch(handleError(error));
+  }
+};
+
+export const uploadDecision = (
+  inputData,
+  setDecision,
+  setComment,
+  setLegal,
+  setFinance,
+  setfollowup,
+  setLoading,
+  setMessageOpen,
+
+) => async (dispatch) => {
+  try {
+    await decisionValidator(inputData);
+    await setLoading(true);
+
+    await instance.post(`malls/create-decision/`, inputData);
+
+    
+    await setDecision(0);
+    await setComment("");
+    await setLegal(false);
+    await setFinance(false);
+    await setfollowup(true);
+    await setMessageOpen(true);
+    
+    dispatch(resetErrors());
+    setLoading(false);
+
+  } catch (error) {
     setLoading(false);
     dispatch(handleError(error));
   }

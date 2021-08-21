@@ -1,19 +1,32 @@
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import {selectedFloor} from "../../Store/actions"
 import { Marginer } from "../Marginer";
 import MallsUnitStatus from "../Menu/MallsMenu/MallsUnitStatus";
 import {CardContainer,TopContainer,ServiceThumbnail,ContentContainer,Title,SpecialistName} from "../StatisticCard"
 
 
-const FloorsMenuItem = ({required_floor_id,required_floor_name,required_floor_img,floor_statistic})=> {
+
+const FloorsMenuItem = ({selectedFloor,
+                         floors_data,
+                         required_floor_id,
+                         required_floor_name,
+                         required_floor_img,
+                         floor_statistic})=> {
+
+    const storeFlore = () => {
+        selectedFloor(floors_data.filter((floor) => floor.id===required_floor_id))
+      };
+
     return( 
         <CardContainer>
-        <Link to={`/maps/${required_floor_id}`}>
           <TopContainer>
               <ServiceThumbnail>
-                  <img src={required_floor_img} alt={required_floor_name} />
+              <Link to={`/maps/${required_floor_id}`}>
+                  <img src={required_floor_img} alt={required_floor_name} onClick={() => storeFlore()} />
+              </Link>
               </ServiceThumbnail>
           </TopContainer>
-         </Link>
          <ContentContainer>
          <Title>{required_floor_name}</Title>
          <Marginer direction="vertical" margin={12} />
@@ -32,4 +45,10 @@ const FloorsMenuItem = ({required_floor_id,required_floor_name,required_floor_im
     )    
 }
 
-export default FloorsMenuItem;
+const mapStateToProps = ({malls}) => ({
+    floors_data:malls.floors_details,
+  });
+  
+  const mapDispatchToProps = {selectedFloor,};
+  
+  export default connect(mapStateToProps,mapDispatchToProps)(FloorsMenuItem);

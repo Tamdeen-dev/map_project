@@ -3,24 +3,33 @@ import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import ImageMapper from "react-image-mapper";
 import HoveredArea from "./HoveredArea"
-import {fetchCoding,} from "../../Store/actions";
+import {fetchCoding,fetchDecisionTypes,retrieveContract} from "../../Store/actions";
 import { InnerPageContainer, PageContainer } from "../PageContainer";
 import { NavBar } from "../NavBar";
 import { Marginer } from "../Marginer";
 import  Mapstyles from "./MapStyles/"
 import CreateUnit from "./CreateUnit";
+import UnitContractDetails from "./UnitContractDetails";
 
 
-export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
+export const Maps = ({fetchCoding,
+                     fetchDecisionTypes,
+                     retrieveContract,
+                     status_data,
+                     floors_data,
+                     units_data,}) => {
 
   const {required_floor,} = useParams();
   
   const [hoveredArea, setArea] = useState(null);
-   const [set_action, setAction] = useState(false); // if user click 'add unit' 
+  const [set_action, setAction] = useState(false); // if user click 'add unit' 
   const [newUnitElement, setAddElement] = useState([]); // variable used to fill in the points sequence
   const [pointsSquence, setPoints] = useState(""); 
   const [point_radius, setRadius] = useState(3);
   const [unitForm, setUnitForm] = useState(false);
+  
+  const [unitDetailForm,setUnitDetailForm] = useState(null);
+  const [unitDetaiStatus, setUnitDetaiStatus]= useState(false);
   
   const [set_draw,setDraw ] = useState(false);
   const [required_floor_map,] =useState(floors_data.find((floor) => floor.id=== Number(required_floor)).floor_image);
@@ -31,6 +40,10 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
    
+  useEffect(() => {
+    fetchDecisionTypes();
+  }, [fetchDecisionTypes]);
+
   useEffect(() => {
     fetchCoding();
   }, [fetchCoding],);
@@ -46,6 +59,7 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
   const leaveArea = () => {
     setArea(null);
   };
+
   const getTipPosition = (area) => {
     return { top: `${area.center[1]}px`, left: `${area.center[0]}px` };
   };
@@ -83,9 +97,26 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
           unit_status: unit.status,
           unit_client: unit.client,
           unit_company:unit.company,
+          unit_contract:unit.cnt_id,
+          unit_size:unit.unit_size,
         }
       })
-    }
+    };
+   
+    const openUnitDetailForm = async (area)=> {
+      setUnitDetaiStatus(true)
+      if (area.unit_contract)
+        { 
+          (await retrieveContract(area.unit_contract));
+          setUnitDetailForm(<UnitContractDetails unit={area} setUnitDetaiStatus= {setUnitDetaiStatus} setUnitDetailForm={setUnitDetailForm}/>);
+        }
+      else
+        setUnitDetaiStatus(false)
+    };
+
+    const clickArea = (area) => {
+        (!unitDetaiStatus) && (!set_action) && openUnitDetailForm(area)
+     };
    
     const access_menu = (unit_action)=>{return ((unit_action)? "unit":"map")}
 
@@ -104,11 +135,14 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
           unitForm={unitForm}
           set_draw={set_draw}
           setDraw={setDraw}
+          unitDetaiStatus={unitDetaiStatus}
             />
      <InnerPageContainer>
    <Mapstyles>
-      <Marginer direction="vertical" margin={30} />
-          
+      <Marginer direction="vertical" margin={10} />
+
+      {unitDetaiStatus &&  unitDetailForm}
+
       {unitForm && (
       <CreateUnit
         newUnitElement={newUnitElement}
@@ -134,6 +168,7 @@ export const Maps = ({fetchCoding,status_data,floors_data,units_data,}) => {
           onImageClick={(evt) => onimgClick(evt)}
           onMouseEnter={(area) => enterArea(area)}
           onMouseLeave={() => leaveArea()}
+          onClick={(area) => clickArea(area)}
         />
         {hoveredArea && (<HoveredArea hoveredArea={hoveredArea}
                                       getTipPosition={getTipPosition}
@@ -152,8 +187,9 @@ const mapStateToProps = ({malls}) => ({
   status_data:malls.status_details,
   floors_data:malls.floors_details,
   units_data:malls.units_details,
+  
 });
 
-const mapDispatchToProps = {fetchCoding,};
+const mapDispatchToProps = {fetchCoding,fetchDecisionTypes,retrieveContract,};
 
 export default connect(mapStateToProps,mapDispatchToProps)(Maps);

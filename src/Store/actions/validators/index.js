@@ -27,4 +27,14 @@ export const UnitsValidator = ({ unit_name = "", coords = "", unit_type = "" , u
   if (!isValid(errors)) throw new ValidationError("Uint error", errors);
 };
 
+export const decisionValidator = ({ decision = "", comment = "" }) => {
+  const errors = {};
+
+  if (Validator.isEmpty(decision)) errors.decision = "Decision is required";
+
+  if (Validator.isEmpty(comment)) errors.comment = "Comment is required";
+
+  if (!isValid(errors)) throw new ValidationError("decision error", errors);
+};
+
 

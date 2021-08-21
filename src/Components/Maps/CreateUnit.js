@@ -76,14 +76,14 @@ const CreateUnit = ({
   return (
     
     <FormStyles>
-      <div className="FormContainer">
+      <div className ="FormContainer"   style={{width: "30%" }}>
       {loading && <Loading message={"Please wait...."} />}
       {openMessage && (
         <>
         <ShowMessage
           setMessageOpen={setUnitForm}
           message={"Unit uploaded successfully"}
-          width={"w-25"}
+          width={"w-60"}
         />
          {setDraw(false)}
         </>
@@ -194,7 +194,7 @@ const CreateUnit = ({
           </select>
       </div>
 
-      <Marginer direction="vertical" margin={30} /> 
+      <Marginer direction="vertical" margin={10} /> 
     <div className="BtnContainer justify-content-end">
       <button
         className="SubmitButton"
@@ -210,6 +210,7 @@ const CreateUnit = ({
         Upload 
       </button>
     </div>
+    <Marginer direction="vertical" margin={10} /> 
     </div>
     </FormStyles>
  

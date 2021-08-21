@@ -1,21 +1,13 @@
 import styled from "styled-components";
 
 export const FormStyles = styled.div`
-.BoxContainer{
-  width: 100%;
-  position: absolute;
-  z-index: 2;
-  top: 0px
-  left: 0;
-  width:100%
-}
 
 .FormContainer {
   z-index: 3;
   position: absolute;
   margin-top: 10%;
   width: 30%;
-  left:25%;
+  left:35%;
   display: flex;
   flex-direction: column;
   box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
@@ -31,10 +23,26 @@ export const FormStyles = styled.div`
 
 }
 
+@media screen and (max-width: 1034px) {
+  .FormContainer{
+    width: 50%;
+    left:25%
+    top:10%
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .FormContainer{
+    width: 100%;
+    left:0%
+    top:10%
+  }
+}
+
 @media screen and (max-width: 976px) {
   .FormContainer{
     width: 100%;
-    left:2%
+    left:0%
     top:10%
   }
 }
@@ -42,25 +50,9 @@ export const FormStyles = styled.div`
 @media screen and (max-width: 992px) {
   .FormContainer{
     width: 100%;
-    left:2%
+    left:0%
     top:10%
   }
-}
-
-.MutedLink{
-  color: rgba(170, 170, 170, 1);
-  font-size: 11px;
-  font-weight: 500;
-  margin: 10px 0;
-  text-decoration: none;
-}
-
-.BoldLink{
-  color: #5963c3;
-  font-weight: 600;
-  font-size: 11px;
-  text-decoration: none;
-  margin: 0 3px;
 }
 
 .Input{
@@ -95,7 +87,6 @@ export const FormStyles = styled.div`
     color: rgba(0,0,197,1);
  }
 
-
 .BtnContainer{
   width :100%;
   display: flex;
@@ -105,7 +96,7 @@ export const FormStyles = styled.div`
 
 .SubmitButton{
   padding: 6px 1em;
-  color: #002a62;
+  color: "00A300";
   font-size: 13px;
   font-weight: 600;
   border: none;
@@ -124,7 +115,6 @@ export const FormStyles = styled.div`
     #cacad0
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   
-
   &:focus {
     outline: none;
   }

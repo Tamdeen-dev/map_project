@@ -30,13 +30,15 @@ export function NavBar(props) {
           unitForm,
           setUnitForm,
           set_draw,
-          setDraw} = props;
+          setDraw,
+          unitDetaiStatus} = props;
 
   return (
     <NavbarContainer useTransparent={useTransparent}>
       <BrandLogo/>
       {(action==="login") && (<AccessMenu />)}
-      {(action==="map") && (<MapAccessMenu setAction={setAction}/>)} 
+      {(action==="map") && (<MapAccessMenu setAction={setAction}
+                                           unitDetaiStatus={unitDetaiStatus}/>)} 
       {(action==="unit") && (<UnitAccessMenu newUnitElement={newUnitElement}
                                              setAddElement={setAddElement}
                                              setPoints={setPoints}
@@ -46,8 +48,7 @@ export function NavBar(props) {
                                              unitForm={unitForm}
                                              setUnitForm={setUnitForm}
                                              set_draw={set_draw}
-                                             setDraw={setDraw}
-                                             />)} 
+                                             setDraw={setDraw}/>)} 
     </NavbarContainer>
   );
 }
