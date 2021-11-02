@@ -4,24 +4,23 @@ import {fetchDecisionHistory, uploadDecision, } from "../../../Store/actions";
 import {resetErrors} from "../../../Store/actions/errors"
 import Loading from "../../Loading";
 import ShowMessage from "../../ShowMessage";
-import UnitDetailStyle from "./UnitDetailStyles"
-import ContractDecisionHistory from "./ContractDecisionHistory"
-import ContractDetails from "./ContractDetails"
-import ContractDecisionControl from "./ContractDecisionControl"
-import TopSectionBackgroundImg from "../../../Images/TmdLogo.png"
+import UnitDetailStyle from "../UnitContractDetails/UnitDetailStyles"
+import UnitDecisionHistory from "./EmptyDesicionHistory"
+import UnitDetails from "./UnitDetails"
+import UnitDecisionControl from "./EmptyDesicionControl"
 
 
-const UnitContractDetails = ({
+
+const EmptyUnitDetails = ({
     unit,
     setUnitDetaiStatus,
     setUnitDetailForm,
-    contract_data,
     decision_types_data,
     fetchDecisionHistory,
     uploadDecision,
   }) => {
     
-    const [decision, setDecision] = useState("");
+    const [decision, setDecision] = useState(String(decision_types_data.find((item) => item.title==="General").id));
     const [comment, setComment] = useState("");
     const [legal_involved, setLegal] = useState(false);
     const [finance_involved, setFinance] = useState(false);
@@ -32,14 +31,12 @@ const UnitContractDetails = ({
     
     if (decision_types_data.length === 0)
         return <Loading message={"Loading decision types...."} />;  
-    if (contract_data.length === 0)
-        return <Loading message={"Loading contract details...."} />;  
-
+    
     const handleHistory = async ()=> {
       if (displayHistory) 
        setHistory(false);
       else
-        {await fetchDecisionHistory(unit.unit_contract);
+        {await fetchDecisionHistory(31);
         setHistory(true)};                
     };
 
@@ -52,14 +49,13 @@ const UnitContractDetails = ({
     const handleConfirm = () => {
       uploadDecision(
               {
-                decision,
+                unit:unit.unit_id,
+                decision:{decision},
                 comment,
                 legal_involved,
                 finance_involved,
-                contract: unit.unit_contract,
-                unit:unit.unit_id,
-                account_manager: contract_data.account_manager,
-                decision_taker:contract_data.account_manager,
+                account_manager: unit.account_manager,
+                decision_taker:unit.account_manager,
                 followup,
               },
               setDecision,
@@ -84,19 +80,10 @@ const UnitContractDetails = ({
                   />
                 )}
                
-                <img
-                  src={(contract_data.brand_image) ? contract_data.brand_image:TopSectionBackgroundImg }
-                  className="db w-95"
-                  alt={`${unit.unit_client}`}
-                  style={{ height:320,padding:"10px 10px 10px 10px"}}
-                />
-                {(displayHistory) ? <ContractDecisionHistory/>
+                {(displayHistory) ? <UnitDecisionHistory/>
                                   : (<>
-                                      <ContractDetails unit={unit} />
-                                      <ContractDecisionControl
-                                          unit = {unit}
-                                          decision={decision}
-                                          setDecision={setDecision}
+                                      <UnitDetails unit={unit} />
+                                      <UnitDecisionControl
                                           finance_involved={finance_involved}
                                           setFinance={setFinance}
                                           legal_involved={legal_involved}
@@ -108,7 +95,7 @@ const UnitContractDetails = ({
                 }
                 <div className="btnContainer ">
                   <div className="row"> 
-                    {(contract_data.decisions==="True")
+                    {(unit.decisions==="True")
                     ?
                       <div > 
                         <button
@@ -151,7 +138,6 @@ const UnitContractDetails = ({
   }
 
   const mapStateToProps = ({malls}) => ({
-    contract_data:malls.contract_details,
     decision_types_data:malls.decision_types_details,
   });
   
@@ -161,4 +147,4 @@ const UnitContractDetails = ({
     fetchDecisionHistory,
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(UnitContractDetails);
+  export default connect(mapStateToProps, mapDispatchToProps)(EmptyUnitDetails);

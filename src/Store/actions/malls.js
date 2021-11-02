@@ -179,7 +179,7 @@ export const uploadDecision = (
     await decisionValidator(inputData);
     await setLoading(true);
 
-    await instance.post(`malls/create-decision/`, inputData);
+    await instance.post((`malls/create-decision/`), inputData);
 
     
     await setDecision(0);

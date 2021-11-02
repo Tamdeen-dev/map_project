@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Loading from "react-loading";
 
 
-const DecisionHistory = ({
+const ContractDecisionHistory = ({
   decision_types_data,
   decisions_history_data,
 }) => {
@@ -67,4 +67,4 @@ const mapStateToProps = ({malls}) => ({
 });
   
  
-export default connect(mapStateToProps)(DecisionHistory);
+export default connect(mapStateToProps)(ContractDecisionHistory);

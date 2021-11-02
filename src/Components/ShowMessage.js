@@ -9,12 +9,12 @@ const ShowMessage = ({ setMessageOpen, message,width}) => {
   };
 
   return (
-    <div class="container" >
+    <div className="container" >
       <div className="row justify-content-md-center">
         <div className={`col-md-auto  ${width}p-3  bg-info text-black`}
              style={{ position: "absolute", zIndex: 50, top: "50%" }}
         >
-          <h7> {UploadMessage} </h7>
+          <div> {UploadMessage} </div>
         <br/>
           <button
             className={`bg-info text-white`}

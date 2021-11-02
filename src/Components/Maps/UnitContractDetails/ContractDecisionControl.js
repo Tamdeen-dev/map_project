@@ -2,7 +2,7 @@ import React , {useEffect, useState} from "react";
 import { connect } from "react-redux";
 
 
-export const DecisionControl = ({
+export const ContractDecisionControl = ({
   unit,
   decision,
   setDecision,
@@ -21,7 +21,7 @@ export const DecisionControl = ({
 }) => {
 
   const [decisionLookup,setDecisionLookup] = useState([]);
-
+  
   const DecisionSource = async ()=>{
     let tempSource =[];
     (unit.unit_status==="Empty") 
@@ -133,4 +133,4 @@ const mapStateToProps = ({malls , errors}) => ({
   errors,
 });
 
-export default connect(mapStateToProps,)(DecisionControl);
+export default connect(mapStateToProps,)(ContractDecisionControl);

@@ -10,6 +10,7 @@ import { Marginer } from "../Marginer";
 import  Mapstyles from "./MapStyles/"
 import CreateUnit from "./CreateUnit";
 import UnitContractDetails from "./UnitContractDetails";
+import EmptyUnitDetails from "./EmptyUnitDetails";
 
 
 export const Maps = ({fetchCoding,
@@ -22,8 +23,8 @@ export const Maps = ({fetchCoding,
   const {required_floor,} = useParams();
   
   const [hoveredArea, setArea] = useState(null);
-  const [set_action, setAction] = useState(false); // if user click 'add unit' 
-  const [newUnitElement, setAddElement] = useState([]); // variable used to fill in the points sequence
+  const [set_action, setAction] = useState(false); 
+  const [newUnitElement, setAddElement] = useState([]); 
   const [pointsSquence, setPoints] = useState(""); 
   const [point_radius, setRadius] = useState(3);
   const [unitForm, setUnitForm] = useState(false);
@@ -99,6 +100,8 @@ export const Maps = ({fetchCoding,
           unit_company:unit.company,
           unit_contract:unit.cnt_id,
           unit_size:unit.unit_size,
+          unit_type:unit.unit_type,
+          unit_utilization :unit.unit_classification,
         }
       })
     };
@@ -111,7 +114,7 @@ export const Maps = ({fetchCoding,
           setUnitDetailForm(<UnitContractDetails unit={area} setUnitDetaiStatus= {setUnitDetaiStatus} setUnitDetailForm={setUnitDetailForm}/>);
         }
       else
-        setUnitDetaiStatus(false)
+        setUnitDetailForm(<EmptyUnitDetails unit={area} setUnitDetaiStatus= {setUnitDetaiStatus} setUnitDetailForm={setUnitDetailForm}/>);  
     };
 
     const clickArea = (area) => {
@@ -139,10 +142,10 @@ export const Maps = ({fetchCoding,
             />
      <InnerPageContainer>
    <Mapstyles>
-      <Marginer direction="vertical" margin={10} />
+      <Marginer direction="vertical" margin={10} /> 
 
       {unitDetaiStatus &&  unitDetailForm}
-
+      
       {unitForm && (
       <CreateUnit
         newUnitElement={newUnitElement}
