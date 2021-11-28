@@ -28,6 +28,7 @@ const EmptyUnitDetails = ({
     const [loading, setLoading] = useState(false);
     const [openMessage, setMessageOpen] = useState(false);
     const [displayHistory, setHistory] = useState(false);
+    const [assignContract, setAssignContract] = useState(false);
     
     if (decision_types_data.length === 0)
         return <Loading message={"Loading decision types...."} />;  
@@ -38,6 +39,10 @@ const EmptyUnitDetails = ({
       else
         {await fetchDecisionHistory(31);
         setHistory(true)};                
+    };
+
+    const handleAssignContract = async ()=> {
+      setAssignContract(true);                
     };
 
     const handleCancel = () => {
@@ -79,35 +84,50 @@ const EmptyUnitDetails = ({
                     width={"w-60"}
                   />
                 )}
-               
-                {(displayHistory) ? <UnitDecisionHistory/>
-                                  : (<>
-                                      <UnitDetails unit={unit} />
-                                      <UnitDecisionControl
-                                          finance_involved={finance_involved}
-                                          setFinance={setFinance}
-                                          legal_involved={legal_involved}
-                                          setLegal={setLegal}
-                                          comment={comment}
-                                          setComment={setComment}
-                                      />
-                                    </>)
-                }
+                {(assignContract) ? <UnitDecisionHistory/>
+                                  :
+                                  ((displayHistory) ? <UnitDecisionHistory/>
+                                                    : (<>
+                                                      <UnitDetails unit={unit} />
+                                                      <UnitDecisionControl
+                                                        finance_involved={finance_involved}
+                                                        setFinance={setFinance}
+                                                        legal_involved={legal_involved}
+                                                        setLegal={setLegal}
+                                                        comment={comment}
+                                                        setComment={setComment}
+                                                      />
+                                                      </>)
+                                  )
+                };
                 <div className="btnContainer ">
                   <div className="row"> 
-                    {(unit.decisions==="True")
-                    ?
-                      <div > 
+                    <div>
+                      <div>
                         <button
                           className="submitButton"
-                          style={{color:"bleu"}}
+                          style={{color:"blue"}}
                           type="button"
-                          onClick={() => handleHistory()}
+                          onClick={() => handleAssignContract()}
                         >
-                          {(!displayHistory) ? "Decision History" : "Back"}
+                          Assign Contract
                         </button>
-                      </div> 
-                    : <div style={{ height: 60 }} />}
+                      </div>
+
+                      {(unit.decisions==="True")
+                      ?
+                        <div> 
+                          <button
+                            className="submitButton"
+                            style={{color:"black"}}
+                            type="button"
+                            onClick={() => handleHistory()}
+                          >
+                            {(!displayHistory) ? "Decision History" : "Back"}
+                          </button>
+                        </div> 
+                      :<div style={{ height: 60 }}/>}
+                    </div>
 
                     <div className="right-content"> 
                       <button

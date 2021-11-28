@@ -5,6 +5,8 @@ import { SELECTED_MALL,
          FETCH_MALLS,
          FETCH_FLOORS,
          FETCH_UNITS,
+         FETCH_USERS,
+         FETCH_UNIT_MANAGERS,
          RETRIEVE_CONTRACT,
          FETCH_DECISION_HISTORY,
          FETCH_DECISION_TYPES,} from "../actions/types";
@@ -17,6 +19,8 @@ const initialState = {
     malls_details:[],
     floors_details:[],
     units_details:[],
+    users_details:[],
+    unit_managers_details:[],
     contract_details:[],
     decision_history_details:[],
     decision_types_details:[],
@@ -66,6 +70,19 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 units_details: action.payload,
             };
+
+        case FETCH_USERS:
+            return {
+                ...state,
+                users_details: action.payload,
+            };
+    
+        case FETCH_UNIT_MANAGERS:
+            return {
+            ...state,
+            unit_managers_details: action.payload,
+        };
+
 
         case RETRIEVE_CONTRACT:
             return {

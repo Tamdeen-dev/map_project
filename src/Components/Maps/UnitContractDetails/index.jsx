@@ -113,7 +113,7 @@ const UnitContractDetails = ({
                       <div > 
                         <button
                           className="submitButton"
-                          style={{color:"bleu"}}
+                          style={{color:"black"}}
                           type="button"
                           onClick={() => handleHistory()}
                         >

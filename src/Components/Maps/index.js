@@ -8,7 +8,7 @@ import { InnerPageContainer, PageContainer } from "../PageContainer";
 import { NavBar } from "../NavBar";
 import { Marginer } from "../Marginer";
 import  Mapstyles from "./MapStyles/"
-import CreateUnit from "./CreateUnit";
+import UnitManagement from "./UnitManagement/index"
 import UnitContractDetails from "./UnitContractDetails";
 import EmptyUnitDetails from "./EmptyUnitDetails";
 
@@ -31,6 +31,7 @@ export const Maps = ({fetchCoding,
   
   const [unitDetailForm,setUnitDetailForm] = useState(null);
   const [unitDetaiStatus, setUnitDetaiStatus]= useState(false);
+  const [selectedUnit,setSelectedUnit] = useState(null);
   
   const [set_draw,setDraw ] = useState(false);
   const [required_floor_map,] =useState(floors_data.find((floor) => floor.id=== Number(required_floor)).floor_image);
@@ -118,7 +119,8 @@ export const Maps = ({fetchCoding,
     };
 
     const clickArea = (area) => {
-        (!unitDetaiStatus) && (!set_action) && openUnitDetailForm(area)
+      setSelectedUnit(area);
+      (!unitDetaiStatus) && ((!set_action) ?  openUnitDetailForm(area) : (!set_draw) && (area.unit_id) && setUnitForm(true))
      };
    
     const access_menu = (unit_action)=>{return ((unit_action)? "unit":"map")}
@@ -139,6 +141,7 @@ export const Maps = ({fetchCoding,
           set_draw={set_draw}
           setDraw={setDraw}
           unitDetaiStatus={unitDetaiStatus}
+          setSelectedUnit = {setSelectedUnit}
             />
      <InnerPageContainer>
    <Mapstyles>
@@ -147,7 +150,8 @@ export const Maps = ({fetchCoding,
       {unitDetaiStatus &&  unitDetailForm}
       
       {unitForm && (
-      <CreateUnit
+      <UnitManagement
+        unit={selectedUnit}
         newUnitElement={newUnitElement}
         setAddElement={setAddElement}
         pointsSquence={pointsSquence}

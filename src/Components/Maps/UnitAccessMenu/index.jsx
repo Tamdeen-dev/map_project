@@ -1,24 +1,5 @@
 import styled from "styled-components"
-
-const BtnNavBar = styled.button`
-.btn {
-  border: none;
-  outline: none;
-  color: #0000FF;
-  padding: 6px 1em;
-  font-size:11px;
-  font-weight: 600;
-  border-radius: 3px;
-  background-color:#FFFFFF ;
-  transition: all 200ms ease-in-out;
-}
-.btn:hover {
-  background-color: #696969;
-}
-.btn:focus {
-  outline: none;
-}
-`;
+import {Button} from "../../Button"
 
 const AccessibilityContainer = styled.div`
 height: 100%;
@@ -36,7 +17,8 @@ export const UnitAccessMenu = ({
   unitForm,
   setUnitForm, 
   set_draw,
-  setDraw,                         
+  setDraw, 
+  setSelectedUnit,                       
 }) => {
  
   const draw_unit = () => {
@@ -58,7 +40,8 @@ export const UnitAccessMenu = ({
           coords: area_from_points,
         },
       ]);
-      setDraw(true)
+      setDraw(true);
+      setSelectedUnit(null);
     }
   };
 
@@ -66,7 +49,8 @@ export const UnitAccessMenu = ({
     // reset the zone coords points
     setAddElement([]);
     setPoints("");
-    setDraw(false)
+    setDraw(false);
+    setSelectedUnit(null);
   };
 
   const closeNav = () => {
@@ -75,13 +59,15 @@ export const UnitAccessMenu = ({
     setPoints("");
     setAction(false);
     setUnitForm(false);
-    setDraw(false)
+    setDraw(false);
+    setSelectedUnit(null);
 
   };
 
   const openCreateUnitForm = () => {
     // reset the zone coords points
     setUnitForm(true);
+    setSelectedUnit(null);
   };
 
 
@@ -91,16 +77,14 @@ export const UnitAccessMenu = ({
   };
   return (
       <AccessibilityContainer>
-      <BtnNavBar>
-          {!set_draw && (<button className="btn" onClick={() => draw_unit()}> Draw Area </button>)}
-          <button className="btn" onClick={() => !unitForm &&  clear()} > Clear Points </button>
-          {newUnitElement.length === 1 && newUnitElement[0].coords.length > 3 && (
-            <button className="btn" onClick={() => !unitForm && openCreateUnitForm()}> Create Unit </button>
-          )}
-          <button className="btn" onClick={() => !unitForm && closeNav()}>Cancel</button>
+        {!set_draw && (<Button size={11} color={"#0000FF"} clickBtn={() => draw_unit()}> Draw Area </Button>)}
+        <Button size={11} color={"#0000FF"} clickBtn={() => !unitForm &&  clear()} > Clear Points </Button>
+        {newUnitElement.length === 1 && newUnitElement[0].coords.length > 3 && (
+            <Button size={11} color={"#0000FF"} clickBtn={() => !unitForm && openCreateUnitForm()}> Create Unit </Button>
+        )}
+        <Button size={11} color={"#0000FF"} clickBtn={() => !unitForm && closeNav()}> Cancel </Button>
           
-          
-          <input style={{ border:"none", 
+        <input style={{ border:"none", 
                           color:"#FF0000", 
                           fontweight:"900",
                           fontSize:"18px",
@@ -114,7 +98,6 @@ export const UnitAccessMenu = ({
             max={20}
             onChange={(event) => setPointSize(event.target.value)}
           />
-         </BtnNavBar>
          </AccessibilityContainer>
         
   );

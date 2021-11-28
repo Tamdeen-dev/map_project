@@ -5,11 +5,15 @@ export {selectedMall,
         fetchMalls,
         fetchFloors,
         fetchUnits,
+        fetchUsers,
+        fetchUnitManagers,
         retrieveContract,
         uploadUnit,
+        updateUnit,
         fetchDecisionHistory,
         fetchDecisionTypes,
-        uploadDecision,} from "./malls";
+        uploadDecision,
+        uploadUnitAccountManager,} from "./malls";
 export {setErrors} from "./errors";
 
   

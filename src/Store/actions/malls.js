@@ -5,6 +5,8 @@ import {SELECTED_MALL,
         FETCH_MALLS,
         FETCH_FLOORS,
         FETCH_UNITS,
+        FETCH_USERS,
+        FETCH_UNIT_MANAGERS,
         RETRIEVE_CONTRACT,
         FETCH_DECISION_HISTORY,
         FETCH_DECISION_TYPES,} from "./types";
@@ -87,6 +89,32 @@ export const fetchUnits = () => async (dispatch) => {
   };
 };
 
+export const fetchUsers = () => async (dispatch) => {
+  try {
+    const res = await instance.get(`malls/fetch-users/`);
+    dispatch({
+      type: FETCH_USERS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch(handleError(error));
+  };
+};
+
+export const fetchUnitManagers = (unitid) => async (dispatch) => {
+  try {
+    const res = await instance.get(`malls/fetch-unit-account-manager/${unitid}/`);
+    dispatch({
+      type: FETCH_UNIT_MANAGERS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch(handleError(error));
+  };
+};
+
+
+
 export const retrieveContract = (contractID) => async (dispatch) => {
   try {
     const res = await instance.get(`/malls/retrieve-contract/${contractID}`);
@@ -136,6 +164,34 @@ export const uploadUnit = (
     setLoading(false);
     dispatch(handleError(error));
   }
+};
+
+
+export const updateUnit = (
+  inputData,
+  setLoading,
+  setMessageOpen,
+  setAddElement,
+) => async (dispatch) => {
+  
+  try {
+   
+    await setLoading(true);
+    await instance.put((`malls/update-units/${inputData.id}/`), inputData);
+    
+    await dispatch(fetchUnits());
+    dispatch(resetErrors());
+    setAddElement([]);
+    
+    setLoading(false);
+    setMessageOpen(true);
+
+  } 
+  catch (error) {
+    setLoading(false);
+    dispatch(handleError(error));
+  }
+ 
 };
 
 
@@ -195,5 +251,22 @@ export const uploadDecision = (
   } catch (error) {
     setLoading(false);
     dispatch(handleError(error));
+  }
+};
+
+
+export const uploadUnitAccountManager = (
+  inputData,
+  setLoading,
+  setMessageOpen,
+) => async () => {
+  try {
+    await setLoading(true);
+    await instance.post((`malls/unit-account-manager/`), inputData);
+    setLoading(false);
+    setMessageOpen(true);
+  } 
+  catch (error) {
+    setLoading(false);
   }
 };

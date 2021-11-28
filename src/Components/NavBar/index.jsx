@@ -31,7 +31,9 @@ export function NavBar(props) {
           setUnitForm,
           set_draw,
           setDraw,
-          unitDetaiStatus} = props;
+          unitDetaiStatus,
+          setSelectedUnit} = props;
+
 
   return (
     <NavbarContainer useTransparent={useTransparent}>
@@ -48,7 +50,8 @@ export function NavBar(props) {
                                              unitForm={unitForm}
                                              setUnitForm={setUnitForm}
                                              set_draw={set_draw}
-                                             setDraw={setDraw}/>)} 
+                                             setDraw={setDraw}
+                                             setSelectedUnit={setSelectedUnit}/>)} 
     </NavbarContainer>
   );
 }
